@@ -1,0 +1,4 @@
+.vscode/
+*.resolved
+node_modules/
+.env

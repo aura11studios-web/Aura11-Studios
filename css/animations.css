@@ -1,0 +1,246 @@
+/* 
+ * animations.css
+ * Non-destructive animation styles for AURA11 Studios
+ * 
+ * TO DISABLE: Remove the <link> to this file in index.html
+ */
+
+/* --- 1. Global Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* --- 2. Hero Animations --- */
+.hero-parallax {
+    will-change: transform;
+    /* JS will handle transform */
+}
+
+/* Floating Badges */
+.hero-badges {
+    position: absolute;
+    right: 5%;
+    top: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+    pointer-events: none;
+    /* Let clicks pass through */
+}
+
+@media (max-width: 768px) {
+    .hero-badges {
+        display: none;
+        /* Hide on mobile */
+    }
+}
+
+.badge {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 24px;
+    border-radius: 50px;
+    color: var(--text-primary, #fff);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: floatY 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    opacity: 0;
+    /* Hidden initially, revealed by JS */
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.22, .9, .32, 1);
+}
+
+.badge:nth-child(2) {
+    animation-delay: 1.5s;
+    transition-delay: 0.2s;
+}
+
+.badge:nth-child(3) {
+    animation-delay: 3s;
+    transition-delay: 0.4s;
+}
+
+.badge.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes floatY {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Text Entrance */
+.hero-content h1,
+.hero-content .hero-subtitle,
+.hero-buttons {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(.22, .9, .32, 1);
+}
+
+.hero-content h1.visible,
+.hero-content .hero-subtitle.visible,
+.hero-buttons.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 3. Staggered Reveals --- */
+.stagger-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.22, .9, .32, 1);
+    will-change: opacity, transform;
+}
+
+.stagger-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 4. Gallery 3D Tilt --- */
+.gallery-item {
+    perspective: 1000px;
+    /* Enable 3D space */
+    transition: transform 0.3s ease;
+    /* Smooth reset */
+}
+
+.gallery-item img {
+    /* Existing transition adjustment */
+    transition: transform 0.5s ease, filter 0.3s ease;
+    will-change: transform;
+}
+
+/* Vignette/Shine overlay */
+.gallery-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(125deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover::after {
+    opacity: 1;
+}
+
+/* Disabled on mobile via JS checking or media query */
+@media (max-width: 768px) {
+    .gallery-item:hover {
+        transform: none !important;
+    }
+}
+
+/* --- 5. Film Cards Shimmer --- */
+.film-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.film-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(198, 168, 124, 0.1), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.5s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.film-card:hover::before {
+    left: 200%;
+    transition: left 1s ease;
+}
+
+/* Play Button Scaling */
+.play-btn {
+    transition: transform 0.3s cubic-bezier(.175, .885, .32, 1.275), background 0.3s ease;
+}
+
+.play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    /* Center + Scale */
+}
+
+.play-btn:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* --- 6. Buttons & CTAs --- */
+.btn-primary {
+    transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(198, 168, 124, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 4px;
+}
+
+/* --- 7. FAQ / Accordion Polish --- */
+.accordion-content {
+    transition: max-height 0.6s cubic-bezier(.22, .9, .32, 1), opacity 0.6s ease;
+    opacity: 0.5;
+}
+
+.accordion-item.active .accordion-content {
+    opacity: 1;
+}
+
+.accordion-header .icon-plus {
+    transition: transform 0.4s cubic-bezier(.22, .9, .32, 1);
+}
+
+.accordion-item.active .accordion-header .icon-plus {
+    transform: rotate(45deg);
+}
+
+/* --- 8. Stats Counters --- */
+.stat-number {
+    font-variant-numeric: tabular-nums;
+    /* Prevent jitter when counting */
+}
+
+/* --- 9. Image Parallax Micro (About) --- */
+.about-media img {
+    will-change: transform;
+    /* JS will handle simple parallax */
+}
