@@ -119,17 +119,10 @@
 }
 
 /* --- 4. Gallery 3D Tilt --- */
+/* Note: Base gallery-item styles are in style.css to avoid conflicts */
 .gallery-item {
     perspective: 1000px;
-    /* Enable 3D space */
-    transition: transform 0.3s ease;
-    /* Smooth reset */
-}
-
-.gallery-item img {
-    /* Existing transition adjustment */
-    transition: transform 0.5s ease, filter 0.3s ease;
-    will-change: transform;
+    /* Enable 3D space for tilt effect */
 }
 
 /* Vignette/Shine overlay */
@@ -150,10 +143,25 @@
     opacity: 1;
 }
 
-/* Disabled on mobile via JS checking or media query */
+/* Mobile Optimizations */
 @media (max-width: 768px) {
+
+    /* Disable hover effects on mobile */
     .gallery-item:hover {
         transform: none !important;
+    }
+
+    .gallery-item::after {
+        display: none;
+    }
+
+    /* Reduce animation duration on mobile for better performance */
+    .badge,
+    .stagger-reveal,
+    .hero-content h1,
+    .hero-content .hero-subtitle,
+    .hero-buttons {
+        transition-duration: 0.3s !important;
     }
 }
 

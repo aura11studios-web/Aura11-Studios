@@ -201,25 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Scroll Animations ---
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, observerOptions);
-
-    const sections = document.querySelectorAll('.section, .hero-content');
-    sections.forEach(section => {
-        section.classList.add('fade-in');
-        observer.observe(section);
-    });
-
     console.log("AURA11 Studios - Interactive Elements Loaded");
 
     // --- FAQ Accordion ---    
@@ -250,41 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- HERO PARALLAX MOTION ---
-    window.addEventListener("scroll", () => {
-        if (window.innerWidth > 768) {
-            const scrolled = window.scrollY;
-            const heroBg = document.querySelector(".hero-bg-image");
-            if (heroBg) {
-                // Slower parallax for smoother feel
-                heroBg.style.transform = `translate3d(0, ${scrolled * 0.2}px, 0)`;
-            }
-        }
-    });
-
-    // --- CINEMATIC STAGGER ANIMATION ---
-    const revealItems = document.querySelectorAll(".service-card, .gallery-item, .team-card, .testimonial-card, .footer-content-grid");
-
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                // Determine staggers based on row position or just index
-                // Reset index for staggers per section? 
-                // For now, simple stagger is fine.
-                setTimeout(() => {
-                    entry.target.classList.add("visible");
-                }, 100); // 100ms fast stagger to feel responsive
-
-                // Stop observing once visible? No, keep it simple.
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    revealItems.forEach(item => {
-        item.classList.add("fade-in"); // Apply global fade-in class
-        revealObserver.observe(item);
-    });
 
     /* --- Dynamic WhatsApp Message --- */
     const whatsappBtn = document.querySelector(".whatsapp-float");

@@ -51,7 +51,7 @@
         }
 
         // Parallax (Desktop Only)
-        if (!isMobile && heroBg) {
+        if (!isMobile && !reducedMotion && heroBg) {
             window.addEventListener('scroll', () => {
                 const scrolled = window.pageYOffset;
                 if (scrolled < window.innerHeight) {
@@ -84,7 +84,7 @@
     function initStaggeredReveals() {
         // Select elements to animate
         const targets = document.querySelectorAll(
-            '.service-card, .gallery-item, .film-card, .testimonial-card, .team-card'
+            '.section, .service-card, .service-visual-card, .gallery-item, .film-card, .testimonial-card, .team-card'
         );
 
         const observerOptions = {
