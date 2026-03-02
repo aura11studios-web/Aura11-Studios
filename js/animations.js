@@ -84,7 +84,7 @@
     function initStaggeredReveals() {
         // Select elements to animate
         const targets = document.querySelectorAll(
-            '.section, .service-card, .service-visual-card, .gallery-item, .film-card, .testimonial-card, .team-card'
+            '.section, .service-card, .service-visual-card, .gallery-item, .film-card, .testimonial-card, .team-card, .fade-in'
         );
 
         const observerOptions = {

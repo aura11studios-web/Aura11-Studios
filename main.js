@@ -134,11 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Video Modal ---
+    // --- Video Modal --- (for YouTube inline videos, not showreel)
     const videoModal = document.getElementById('video-modal');
     const videoFrame = document.getElementById('video-frame');
     const videoClose = document.querySelector('.video-modal-close');
-    const playBtns = document.querySelectorAll('.play-btn, .btn-text');
+    const modalPlayBtns = document.querySelectorAll('.btn-text[data-video-id]');
 
     // Sample video URL (acting as the "embedded" player)
     const videoMap = {
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'VIDEO_ID_3': 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'
     };
 
-    playBtns.forEach(btn => {
+    modalPlayBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const videoId = btn.getAttribute('data-video-id');
             if (videoId && videoMap[videoId]) {
@@ -171,6 +171,42 @@ document.addEventListener('DOMContentLoaded', () => {
             videoFrame.src = '';
         }
     });
+
+    // --- Cinematic Showreel Play Button ---
+    const showreelVideo = document.getElementById('showreel-video');
+    const showreelPlayBtn = document.getElementById('showreel-play-btn');
+    const showreelWrapper = showreelVideo ? showreelVideo.closest('.video-wrapper') : null;
+
+    if (showreelPlayBtn && showreelVideo && showreelWrapper) {
+        // Clicking the play button: unmute, enable controls, mark as playing
+        showreelPlayBtn.addEventListener('click', () => {
+            showreelVideo.muted = false;
+            showreelVideo.controls = true;
+            showreelVideo.loop = false;
+            showreelWrapper.classList.add('playing');
+            showreelVideo.play().catch(() => {
+                // Autoplay with sound might be blocked – show controls anyway
+                showreelVideo.controls = true;
+            });
+        });
+
+        // Clicking anywhere on the video wrapper (not the play button) also activates
+        showreelWrapper.addEventListener('click', (e) => {
+            if (!showreelWrapper.classList.contains('playing')) {
+                showreelPlayBtn.click();
+            }
+        });
+
+        // When video ends, reset to muted autoplay loop state
+        showreelVideo.addEventListener('ended', () => {
+            showreelVideo.muted = true;
+            showreelVideo.controls = false;
+            showreelVideo.loop = true;
+            showreelWrapper.classList.remove('playing');
+            showreelVideo.play();
+        });
+    }
+
 
     // --- Contact Form ---
     // Removed fake submission logic to allow FormSubmit.co integration
